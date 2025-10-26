@@ -1,0 +1,21 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "45500489ad79681d54783167405601a9"
+name = "live-test-loyalty"
+application_url = "https://stg-loyalty-tigres-web.azurewebsites.net"
+embedded = true
+
+[webhooks]
+api_version = "2026-01"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products, write_app_proxy"
+
+[auth]
+redirect_urls = [ "https://example.com/api/auth" ]
+
+[app_proxy]
+url = "/my-app-proxy"
+prefix = "apps"
+subpath = "my-custom-path"
