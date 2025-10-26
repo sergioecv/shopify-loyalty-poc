@@ -20,6 +20,6 @@ redirect_urls = [
  ]
 
 [app_proxy]
-url = "/my-app-proxy"
+url = "https://shopify-loyalty-poc.onrender.com/my-app-proxy"
 prefix = "apps"
 subpath = "my-custom-path"

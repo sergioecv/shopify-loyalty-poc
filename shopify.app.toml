@@ -2,7 +2,7 @@
 
 client_id = "ba221144a193b2f27582531c62e48d2d"
 name = "live-test-loyalty"
-application_url = "https://stg-loyalty-tigres-web.azurewebsites.net"
+application_url = "https://shopify-loyalty-poc.onrender.com"
 embedded = true
 
 [build]
@@ -24,9 +24,13 @@ api_version = "2026-01"
 scopes = "write_products, write_app_proxy"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ 
+    "https://shopify-loyalty-poc.onrender.com/auth/callback",
+    "https://shopify-loyalty-poc.onrender.com/auth/shopify/callback",
+    "https://shopify-loyalty-poc.onrender.com/api/auth/callback"
+ ]
 
 [app_proxy]
-url = "https://stg-loyalty-tigres-web.azurewebsites.net/my-app-proxy"
+url = "https://shopify-loyalty-poc.onrender.com/my-app-proxy"
 prefix = "apps"
 subpath = "my-custom-path"
