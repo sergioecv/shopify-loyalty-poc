@@ -30,7 +30,25 @@ function ProfileBlockExtension() {
       const data = await res.json();
       console.log(data);
     }
-    
+
+    async function proxyGet() { 
+      // https://testing-app-123803528.myshopify.com
+      const res = await fetch(`${"https://k5an0a-iz.myshopify.com"}/apps/my-custom-path`, {
+        method: "GET",
+        redirect: "manual",
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+          // 'X-Shopify-Access-Token': 'yeecki'
+          // "Authorization": `Bearer yeecki`
+        }
+      });
+  
+      const data = await res.json();
+      console.log(data);
+    }
+
+    proxyGet()
     proxyHit('sergiochz10@gmail.com', 'raIdar.23');
   }, [])
 

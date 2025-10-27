@@ -1,5 +1,5 @@
 // app/routes/my-app-proxy.tsx
-import { type ActionFunction } from "react-router";
+import { LoaderFunctionArgs, type ActionFunction } from "react-router";
 import { authenticate } from "../shopify.server"
 import { useLoaderData } from "react-router";
 
@@ -55,8 +55,20 @@ export const action: ActionFunction = async ({ request }) => {
   // }
 };
 
-export const loader = async ({ request }) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log('-proxy hit-')
+  if (request.method === "OPTIONS") {
+    // Respond to the preflight request with appropriate CORS headers
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS", // Add all methods you use
+        "Access-Control-Allow-Headers": "Content-Type, Authorization", // Add all custom headers you use
+        "Access-Control-Max-Age": "86400", // Cache preflight response for 24 hours
+      },
+    });
+  }
   // Use the authentication API from the React Router template
   await authenticate.public.appProxy(request);
 
@@ -89,7 +101,15 @@ export const loader = async ({ request }) => {
   // const user = await newLogin('sergiochz10@gmail.com', 'raIdar.23');
 
 
-  
+  return Response.json({
+    shop: url.searchParams.get("shop") || 'e',
+    loggedInCustomerId: url.searchParams.get("logged_in_customer_id") || "e",
+  }, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      // You can add other headers here too if needed, but ACAO is critical
+    },
+  });
 
   return {
     shop: url.searchParams.get("shop") || 'e',
