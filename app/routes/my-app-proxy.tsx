@@ -6,6 +6,7 @@ import { cors } from "remix-utils/cors";
 
 const baseURL = 'https://stg-loyalty-web.azurewebsites.net/api/v1'
 
+
 export const action: ActionFunction = async ({ request }) => {
   console.log('----proxy hit----')
   const { session, storefront } = await authenticate.public.appProxy(request);
@@ -61,13 +62,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log('Method:', request.method);
   
   // Handle OPTIONS preflight FIRST - before authentication
-  if (request.method === "OPTIONS") {
-    console.log('✅ Handling OPTIONS in loader');
-    const response = Response.json({ status: "ok" }, { status: 200 });
-    return await cors(request, response);
-  }
+  // if (request.method === "OPTIONS") {
+  //   console.log('✅ Handling OPTIONS in loader');
+  //   const response = Response.json({ status: "ok" }, { status: 200 });
+  //   return await cors(request, response);
+  // }
   
   // Now authenticate for GET requests
+  const {cors} = await authenticate.admin(request);
   await authenticate.public.appProxy(request);
   
   const url = new URL(request.url);

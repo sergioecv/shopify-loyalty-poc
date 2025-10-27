@@ -26,7 +26,7 @@ function ProfileBlockExtension() {
 
     function fetchWithToken(token) {
       const result = fetch(
-        'https://shopify-loyalty-poc.onrender.com/my-app-proxy',
+        'https://shopify-loyalty-poc.onrender.com/api/customer-discounts',
         { method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,24 +61,20 @@ function ProfileBlockExtension() {
       console.log(data);
     }
 
-    async function proxyGet() { 
+    async function endpointGet() { 
       // https://testing-app-123803528.myshopify.com
-      const res = await fetch(`${"https://k5an0a-iz.myshopify.com"}/apps/my-custom-path`, {
-        method: "GET",
-        redirect: "manual",
+      const response = await fetch('https://shopify-loyalty-poc.onrender.com/api/customer-discounts', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          // 'Access-Control-Allow-Origin': '*',
-          // 'X-Shopify-Access-Token': 'yeecki'
-          // "Authorization": `Bearer yeecki`
-        }
+          'Content-Type': 'application/json',
+        },
       });
-  
-      const data = await res.json();
-      console.log(data);
+      
+      const data = await response.json();
+      console.log('data', data)
     }
 
-    proxyGet()
+    endpointGet()
     proxyHit('sergiochz10@gmail.com', 'raIdar.23');
   }, [])
 
