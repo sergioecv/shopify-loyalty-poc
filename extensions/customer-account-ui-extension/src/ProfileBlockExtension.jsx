@@ -8,6 +8,36 @@ export default async () => {
 
 function ProfileBlockExtension() {
   const i18n = shopify.i18n;
+
+  const {sessionToken} = shopify;
+
+  useEffect(() => {
+    async function queryApi() {
+      // Request a new (or cached) session token from Shopify
+      const token =
+        await shopify.sessionToken.get();
+      console.log('sessionToken.get()', token);
+
+      const apiResponse =
+        await fetchWithToken(token);
+      // Use your response
+      console.log('API response', apiResponse);
+    }
+
+    function fetchWithToken(token) {
+      const result = fetch(
+        'https://shopify-loyalty-poc.onrender.com/my-app-proxy',
+        { method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      return result;
+    }
+
+    queryApi();
+  }, [sessionToken]);
   
   useEffect(() => {
     async function proxyHit(username, password) { 
@@ -17,7 +47,7 @@ function ProfileBlockExtension() {
         redirect: "manual",
         headers: {
           "Content-Type": "application/json",
-          'Access-Control-Allow-Origin': '*',
+          // 'Access-Control-Allow-Origin': '*',
           // 'X-Shopify-Access-Token': 'yeecki'
           // "Authorization": `Bearer yeecki`
         },
@@ -38,7 +68,7 @@ function ProfileBlockExtension() {
         redirect: "manual",
         headers: {
           "Content-Type": "application/json",
-          'Access-Control-Allow-Origin': '*',
+          // 'Access-Control-Allow-Origin': '*',
           // 'X-Shopify-Access-Token': 'yeecki'
           // "Authorization": `Bearer yeecki`
         }
