@@ -56,7 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  console.log('-proxy hit-')
+  console.log('-proxy hit caUI-')
   if (request.method === "OPTIONS") {
     // Respond to the preflight request with appropriate CORS headers
     return new Response(null, {
@@ -70,7 +70,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     });
   }
   // Use the authentication API from the React Router template
-  await authenticate.public.appProxy(request);
+  // await authenticate.public.appProxy(request);
+  await authenticate.public.customerAccount(request)
 
   // Read URL parameters added by Shopify when proxying
   const url = new URL(request.url);
