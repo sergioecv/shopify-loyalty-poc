@@ -22,12 +22,26 @@ function ProfileBlockExtension() {
         await fetchWithToken(token);
       // Use your response
       console.log('API response', apiResponse);
+      const apiPostRes = await POSTWithToken(token);
+      console.log('API response', apiPostRes);
     }
 
     function fetchWithToken(token) {
       const result = fetch(
-        'https://shopify-loyalty-poc.onrender.com/api/customer-discounts',
+        'https://shopify-loyalty-poc.onrender.com/public/customer-discounts',
         { method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      return result;
+    }
+
+    function POSTWithToken(token) {
+      const result = fetch(
+        'https://shopify-loyalty-poc.onrender.com/public/customer-discounts',
+        { method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -63,7 +77,7 @@ function ProfileBlockExtension() {
 
     async function endpointGet() { 
       // https://testing-app-123803528.myshopify.com
-      const response = await fetch('https://shopify-loyalty-poc.onrender.com/api/customer-discounts', {
+      const response = await fetch('https://shopify-loyalty-poc.onrender.com/public/customer-discounts', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

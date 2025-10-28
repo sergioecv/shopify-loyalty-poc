@@ -1,5 +1,5 @@
-import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs } from 'react-router';
-import { authenticate } from '../shopify.server';
+import { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
+import { authenticate } from '../../shopify.server';
 
 // export const loader: LoaderFunction = async ({ request }) => {
 //   const { cors } = await authenticate.admin(request);
