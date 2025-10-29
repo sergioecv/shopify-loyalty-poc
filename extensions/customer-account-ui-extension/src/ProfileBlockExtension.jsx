@@ -1,6 +1,6 @@
 import '@shopify/ui-extensions/preact';
 import {render} from "preact";
-import { useEffect } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 
 export default async () => {
   render(<ProfileBlockExtension />, document.body)
@@ -10,6 +10,7 @@ function ProfileBlockExtension() {
   const i18n = shopify.i18n;
 
   const {sessionToken} = shopify;
+  const modalRef = useRef();
 
   useEffect(() => {
     async function queryApi() {
@@ -93,6 +94,7 @@ function ProfileBlockExtension() {
   }, [])
 
   return (
+    <>
     <s-section heading="Rewards">
       <s-stack direction="block" gap="base" paddingBlockStart="base">
         <s-grid gridTemplateColumns="1fr 1fr 1fr 1fr" gap="large">
@@ -116,11 +118,50 @@ function ProfileBlockExtension() {
           </s-stack>
         </s-grid>
         <s-stack direction="block" max-inline-size="140">
-          <s-button tone="neutral" variant="secondary">
+          <s-button tone="neutral" variant="secondary" command="--show"
+                commandFor="buy-reward-modal">
             View rewards
           </s-button>
         </s-stack>
       </s-stack>
     </s-section>
+    <s-modal
+          id="buy-reward-modal"
+          ref={modalRef}
+          // heading={"Canjear recompensa"}
+        >
+          {/* <s-form>
+            <s-stack direction="block" gap="large">
+              <s-stack direction="block">
+                <s-text>
+                  Texto
+                </s-text>
+              </s-stack>
+              <s-stack direction="inline" gap="base" justifyContent="end">
+                <s-button
+                  slot="secondary-actions"
+                  variant="secondary"
+                >
+                  Cancelar
+                </s-button>
+                <s-button
+                  slot="primary-action"
+                  type="submit"
+                  variant="primary"
+                >
+                  Canjear
+                </s-button>
+              </s-stack>
+            </s-stack>
+          </s-form> */}
+
+          <s-image 
+            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvhcMXzhcvLbyphVk6AAeN6jZYQmdTYeiLpxL-A7tlYTefFWMA'
+            sizes="(max-width: 30em) 50vw, 100vw"
+          >
+            </s-image>
+          <s-text>Texto</s-text>
+        </s-modal>
+    </>
   );
 }

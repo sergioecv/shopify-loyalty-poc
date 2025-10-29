@@ -61,13 +61,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log('=== LOADER HIT ===');
   console.log('Method:', request.method);
   
-  // Handle OPTIONS preflight FIRST - before authentication
-  // if (request.method === "OPTIONS") {
-  //   console.log('✅ Handling OPTIONS in loader');
-  //   const response = Response.json({ status: "ok" }, { status: 200 });
-  //   return await cors(request, response);
-  // }
-  
   // Now authenticate for GET requests
   const {cors} = await authenticate.admin(request);
   await authenticate.public.appProxy(request);
