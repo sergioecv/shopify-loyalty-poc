@@ -14,7 +14,9 @@ export async function loader({ request }) {
   const hmac = url.searchParams.get('hmac');
   const state = url.searchParams.get('state');
 
-  console.log('This url', url)
+    console.log('This url', url)
+    console.log('clientID', process.env.SHOPIFY_API_KEY, code)
+    console.log('secret', process.env.SHOPIFY_API_SECRET)
 
   // Validate required parameters
   if (!code || !shop) {
@@ -23,27 +25,29 @@ export async function loader({ request }) {
   }
 
   try {
-    // Call your API to exchange the code for an access token
-    // const response = await fetch(import.meta.env.VITE_API_ENDPOINT || 'https://shopify-loyalty-poc.onrender.com', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     client_id: process.env.SHOPIFY_API_KEY,
-    //     client_secret: process.env.SHOPIFY_API_SECRET,
-    //     code,
-    //   })
-    // });
+    // import.meta.env.VITE_API_ENDPOINT || 
+    const response = await fetch('https://stg-loyalty-tigres-api.azurewebsites.net/admin/shopify/install', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        client_id: process.env.SHOPIFY_API_KEY,
+        client_secret: process.env.SHOPIFY_API_SECRET,
+        code,
+        shopName: 'k5an0a-iz.myshopify.com'
+      })
+    });
 
-    // if (!response.ok) {
-    //   const errorData = await response.json().catch(() => ({}));
-    //   console.error('API error:', response.status, errorData);
-    //   throw new Response('Failed to exchange authorization code', { status: response.status });
-    // }
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('API error:', response.status, errorData);
+      throw new Response('Failed to exchange authorization code', { status: response.status });
+    }
 
-    // const data = await response.json();
-    // console.log('Token exchange successful for shop:', shop);
+    const data = await response.json();
+    console.log('Token exchange successful for shop:', shop);
+    console.log('response:', data)
     https://[shop].myshopify.com/admin/oauth/authorize?client_id=ba221144a193b2f27582531c62e48d2d&scope=write_app_proxy,write_products&redirect_uri=https://shopify-loyalty-poc.onrender.com/&state=212a8b839860d1aefb258aaffcdbd63f
 
     console.log('clientID', process.env.SHOPIFY_API_KEY, code)
