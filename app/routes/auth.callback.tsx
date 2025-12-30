@@ -26,17 +26,23 @@ export async function loader({ request }) {
 
   try {
     // import.meta.env.VITE_API_ENDPOINT || 
-    const response = await fetch('https://stg-loyalty-tigres-api.azurewebsites.net/admin/shopify/install', {
+    const params = new URLSearchParams({
+        client_id: process.env.SHOPIFY_API_KEY || '',
+        client_secret: process.env.SHOPIFY_API_SECRET || '',
+        code,
+        shopName: 'k5an0a-iz.myshopify.com'
+      });
+    const response = await fetch(`https://stg-loyalty-tigres-api.azurewebsites.net/admin/shopify/install?${params}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        client_id: process.env.SHOPIFY_API_KEY,
-        client_secret: process.env.SHOPIFY_API_SECRET,
-        code,
-        shopName: 'k5an0a-iz.myshopify.com'
-      })
+      }
+    //   body: JSON.stringify({
+    //     client_id: process.env.SHOPIFY_API_KEY,
+    //     client_secret: process.env.SHOPIFY_API_SECRET,
+    //     code,
+    //     shopName: 'k5an0a-iz.myshopify.com'
+    //   })
     });
 
     if (!response.ok) {
@@ -45,10 +51,16 @@ export async function loader({ request }) {
       throw new Response('Failed to exchange authorization code', { status: response.status });
     }
 
+    if (response.status === 204) {
+        console.log('Token exchange successful for shop:', shop);
+        const storeName = shop.split('.')[0];
+        return redirect(`https://admin.shopify.com/store/${storeName}/`);
+    }
+
     const data = await response.json();
     console.log('Token exchange successful for shop:', shop);
     console.log('response:', data)
-    https://[shop].myshopify.com/admin/oauth/authorize?client_id=ba221144a193b2f27582531c62e48d2d&scope=write_app_proxy,write_products&redirect_uri=https://shopify-loyalty-poc.onrender.com/&state=212a8b839860d1aefb258aaffcdbd63f
+    // https://[shop].myshopify.com/admin/oauth/authorize?client_id=ba221144a193b2f27582531c62e48d2d&scope=write_app_proxy,write_products&redirect_uri=https://shopify-loyalty-poc.onrender.com/&state=212a8b839860d1aefb258aaffcdbd63f
 
     console.log('clientID', process.env.SHOPIFY_API_KEY, code)
     console.log('secret', process.env.SHOPIFY_API_SECRET)
