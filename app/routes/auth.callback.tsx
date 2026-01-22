@@ -30,7 +30,7 @@ export async function loader({ request }) {
         client_id: process.env.SHOPIFY_API_KEY || '',
         client_secret: process.env.SHOPIFY_API_SECRET || '',
         code,
-        shopName: 'k5an0a-iz.myshopify.com'
+        shopName: shop
       });
     const response = await fetch(`https://stg-loyalty-tigres-api.azurewebsites.net/admin/shopify/install?${params}`, {
       method: 'POST',
