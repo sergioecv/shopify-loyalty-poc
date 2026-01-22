@@ -15,8 +15,8 @@ export async function loader({ request }) {
   const state = url.searchParams.get('state');
 
     console.log('This url', url)
-    console.log('clientID', process.env.SHOPIFY_API_KEY, code)
-    console.log('secret', process.env.SHOPIFY_API_SECRET)
+    console.log('clientID', process.env.SHOPIFY_CLIENT_ID, code)
+    console.log('secret', process.env.SHOPIFY_APP_SECRET)
 
   // Validate required parameters
   if (!code || !shop) {
@@ -27,8 +27,8 @@ export async function loader({ request }) {
   try {
     // import.meta.env.VITE_API_ENDPOINT || 
     const params = new URLSearchParams({
-        client_id: process.env.SHOPIFY_API_KEY || '',
-        client_secret: process.env.SHOPIFY_API_SECRET || '',
+        client_id: process.env.SHOPIFY_CLIENT_ID || '',
+        client_secret: process.env.SHOPIFY_APP_SECRET || '',
         code,
         shopName: shop
       });
@@ -62,8 +62,8 @@ export async function loader({ request }) {
     console.log('response:', data)
     // https://[shop].myshopify.com/admin/oauth/authorize?client_id=ba221144a193b2f27582531c62e48d2d&scope=write_app_proxy,write_products&redirect_uri=https://shopify-loyalty-poc.onrender.com/&state=212a8b839860d1aefb258aaffcdbd63f
 
-    console.log('clientID', process.env.SHOPIFY_API_KEY, code)
-    console.log('secret', process.env.SHOPIFY_API_SECRET)
+    console.log('clientID', process.env.SHOPIFY_CLIENT_ID, code)
+    console.log('secret', process.env.SHOPIFY_APP_SECRET)
 
     // Extract store name (remove .myshopify.com suffix)
     const storeName = shop.split('.')[0];
